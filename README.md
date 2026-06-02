@@ -57,7 +57,7 @@ zipfile
 Clone the repository:
 
 ```bash
-git clone https://github.com/razonklnbd/kml-to-google-map-url
+git clone https://github.com/razonklnbd/kml-to-google-map-url.git
 
 cd kml-to-google-map-url
 ```
