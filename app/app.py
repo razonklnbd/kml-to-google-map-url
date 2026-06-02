@@ -7,7 +7,7 @@ from flask import jsonify
 from collections import defaultdict, deque
 import random
 
-from parser import KmlRouteParser
+from app.parser import KmlRouteParser
 
 app = Flask(__name__)
 app.secret_key = "CHAquest.remote_aNGE_THIS"
