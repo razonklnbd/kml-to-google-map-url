@@ -1,0 +1,19 @@
+<h2>Security Check</h2>
+
+<p>Solve: {{ question }}</p>
+
+<input id="ans">
+<button onclick="verify()">Submit</button>
+
+<script>
+function verify() {
+    fetch("/challenge", {
+        method: "POST",
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: "answer=" + document.getElementById("ans").value
+    }).then(r => {
+        if (r.ok) location.href = "/";
+        else alert("Wrong");
+    });
+}
+</script>

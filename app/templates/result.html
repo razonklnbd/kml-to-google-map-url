@@ -1,0 +1,22 @@
+<h2>Google Maps URL</h2>
+
+<p id="mapUrl">{{ url }}</p>
+<button onclick="copyURL()">Copy URL</button>
+
+<h3>Points</h3>
+
+<table border="1">
+<tr><th>Name</th><th>Lat</th><th>Lng</th></tr>
+
+{% for p in points %}
+<tr>
+<td>{{ p.name }}</td>
+<td>{{ p.latitude }}</td>
+<td>{{ p.longitude }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<button onclick="copyCSV()">Copy CSV</button>
+
+<script src="/static/app.js"></script>

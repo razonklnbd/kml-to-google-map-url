@@ -1,7 +1,7 @@
 import argparse
 from tkinter import Tk, filedialog
 
-from kml_route_parser import (
+from app.parser import (
     KmlRouteParser
 )
 

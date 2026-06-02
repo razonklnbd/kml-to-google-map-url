@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+
+  web:
+    build: .
+    container_name: kml_web
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+
+  worker:
+    build: .
+    container_name: kml_worker
+    command: python app/cleanup_worker.py
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    restart: always

@@ -160,6 +160,57 @@ class KmlRouteParser:
 
             return temp_file.name
 
+
+    @staticmethod
+    def _safe_extract_kmz(kmz_path, max_files=99, max_size=5 * 1024 * 1024):
+        """
+        Safely extract KMZ and return safe KML path
+        """
+
+        with zipfile.ZipFile(kmz_path, 'r') as z:
+
+            files = z.namelist()
+
+            # limit number of files
+            if len(files) > max_files:
+                raise ValueError(f"Too many files in KMZ. Allowed {max_files} files")
+
+            kml_files = [
+                f for f in files
+                if f.lower().endswith(".kml")
+            ]
+
+            if not kml_files:
+                raise ValueError("No KML found in KMZ")
+
+            kml_file = kml_files[0]
+
+            # security check: path traversal
+            if ".." in kml_file or kml_file.startswith("/"):
+                raise ValueError("Unsafe file path in KMZ")
+
+            data = z.read(kml_file)
+
+            if len(data) > max_size:
+                raise ValueError(f"KML file too large. Allowed {max_size} bites")
+
+            temp = tempfile.NamedTemporaryFile(delete=False, suffix=".kml")
+            temp.write(data)
+            temp.close()
+
+            return temp.name
+
+    @staticmethod
+    def _safe_parse_kml(file_path):
+
+        parser = ET.XMLParser(
+            resolve_entities=False
+        )
+
+        tree = ET.parse(file_path, parser=parser)
+
+        return tree.getroot()
+
     def _parse_points(
         self,
         input_file
@@ -176,7 +227,7 @@ class KmlRouteParser:
             if ext == ".kmz":
 
                 temp_kml = (
-                    self._extract_kml_from_kmz(
+                    self._safe_extract_kmz(
                         input_file
                     )
                 )
@@ -193,11 +244,7 @@ class KmlRouteParser:
                     "Only KML and KMZ files are supported."
                 )
 
-            tree = ET.parse(
-                kml_file
-            )
-
-            root = tree.getroot()
+            root = self._safe_parse_kml(kml_file)
 
             points = []
 
