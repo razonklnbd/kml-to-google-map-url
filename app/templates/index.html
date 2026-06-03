@@ -19,10 +19,40 @@
         }
 
         .result-box {
+            position: relative;
             background: #111827;
             padding: 10px;
             border-radius: 8px;
             word-break: break-all;
+        }
+        .result-box h6, .result-box a{
+            color: white;
+        }
+
+        .result-box .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+
+            padding: 6px 12px;
+            border: 1px solid #444;
+            border-radius: 6px;
+
+            background: rgba(30, 30, 30, 0.9);
+            color: white;
+            cursor: pointer;
+
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .result-box:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .result-box .copy-btn.copied {
+            background: #1a7f37;
+            border-color: #1a7f37;
         }
 
         table {
@@ -60,12 +90,12 @@
             <h5>Google Maps URL</h5>
 
             <div class="result-box" id="mapUrlByName">
-                <h4>By Name</h4>
+                <h6>By Name</h6>
                 <button class="copy-btn" onclick="copyURL(this)">Copy URL</button>
                 <a href="#" target="_blank"></a>
             </div>
             <div class="result-box" id="mapUrlByPoint">
-                <h4>By Name</h4>
+                <h6>By Co-ordinate</h6>
                 <button class="copy-btn" onclick="copyURL(this)">Copy URL</button>
                 <a href="#" target="_blank"></a>
             </div>

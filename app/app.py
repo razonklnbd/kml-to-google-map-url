@@ -121,7 +121,7 @@ def upload():
 
     points = parser.get_points()
     url_by_name = parser.get_google_maps_url(use_names=True)
-    url_by_point = parser.get_google_maps_url(use_names=True)
+    url_by_point = parser.get_google_maps_url(use_names=False)
 
     return jsonify({
         "challenge_required": False,
