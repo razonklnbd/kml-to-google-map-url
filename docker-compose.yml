@@ -7,9 +7,21 @@ services:
     container_name: kml_web
     ports:
       - "5000:5000"
+    environment:
+      RATELIMIT_STORAGE_URI: redis://redis:6379/0
     volumes:
       - ./uploads:/app/uploads
       - ./logs:/app/logs
+      - ./data:/app/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6380:6379" # host:container
+    volumes:
+      - ./data/redis:/data
+    restart: unless-stopped
 
   worker:
     build: .
@@ -18,4 +30,5 @@ services:
     volumes:
       - ./uploads:/app/uploads
       - ./logs:/app/logs
+      - ./data:/app/data
     restart: always

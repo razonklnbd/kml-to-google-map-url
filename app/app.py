@@ -6,6 +6,7 @@ from flask_limiter.util import get_remote_address
 from flask import jsonify
 from collections import defaultdict, deque
 import random
+from pathlib import Path
 
 from app.parser import KmlRouteParser
 
@@ -19,17 +20,19 @@ request_log = defaultdict(deque)
 CHALLENGE_THRESHOLD = 1      # max 1 request
 WINDOW_SECONDS = 60
 
-UPLOAD_DIR = "uploads"
-LOG_FILE = "logs/requests.log"
+UPLOAD_DIR = "/app/uploads"
+LOG_FILE = "/app/logs/requests.log"
+#DATA_FILE = "/app/data/rate_limits.sqlite3"
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
-os.makedirs("logs", exist_ok=True)
+os.makedirs(str(Path(LOG_FILE).parent), exist_ok=True)
 
 # -----------------------
 # Rate limiting (PRODUCTION SAFE)
 # -----------------------
 limiter = Limiter(
     get_remote_address,
+    storage_uri="redis://redis:6379/0",
     app=app,
     default_limits=["30 per minute"]
 )
