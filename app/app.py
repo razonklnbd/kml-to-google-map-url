@@ -1,6 +1,6 @@
 import os
 import time
-from flask import Flask, render_template, request, session, request
+from flask import Flask, render_template, request, session, request, url_for
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask import jsonify
@@ -88,6 +88,16 @@ def index():
     log_request()
     return render_template("index.html")
 
+@app.route("/debug")
+def debug():
+    return {
+        "X-Script-Name": request.headers.get("X-Script-Name"),
+        "SCRIPT_NAME": request.environ.get("SCRIPT_NAME"),
+        "PATH_INFO": request.environ.get("PATH_INFO"),
+        "script_name": request.environ.get("SCRIPT_NAME"),
+        "url_root": request.url_root,
+        "upload_url": url_for("upload"),
+    }
 
 @app.route("/upload", methods=["POST"])
 @limiter.limit("10 per minute")
