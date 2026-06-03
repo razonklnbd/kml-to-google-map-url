@@ -132,7 +132,7 @@ async function uploadFile(formData) {
 
     let data = await res.json();
 
-    // CHALLENGE FLOW
+    // x: CHALLENGE FLOW
     if (data.challenge_required) {
 
         let answer = prompt("Security Check: " + data.question);
