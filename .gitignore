@@ -1,0 +1,14 @@
+data/*
+!data/
+!config/keep.txt
+data/redis/*
+!data/redis/
+!data/redis/keep.txt
+
+logs/*
+!logs/
+!logs/keep.txt
+
+uploads/*
+!uploads/
+!uploads/keep.txt
