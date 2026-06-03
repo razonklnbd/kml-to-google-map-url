@@ -1,6 +1,6 @@
 data/*
 !data/
-!config/keep.txt
+!data/keep.txt
 data/redis/*
 !data/redis/
 !data/redis/keep.txt
