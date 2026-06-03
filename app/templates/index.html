@@ -59,11 +59,16 @@
 
             <h5>Google Maps URL</h5>
 
-            <div class="result-box" id="mapUrl"></div>
-
-            <button class="btn btn-sm btn-success mt-2" onclick="copyURL()">
-                Copy URL
-            </button>
+            <div class="result-box" id="mapUrlByName">
+                <h4>By Name</h4>
+                <button class="copy-btn" onclick="copyURL(this)">Copy URL</button>
+                <a href="#" target="_blank"></a>
+            </div>
+            <div class="result-box" id="mapUrlByPoint">
+                <h4>By Name</h4>
+                <button class="copy-btn" onclick="copyURL(this)">Copy URL</button>
+                <a href="#" target="_blank"></a>
+            </div>
 
         </div>
 
@@ -105,8 +110,13 @@ document.getElementById("uploadForm").addEventListener("submit", async function 
 
 function showResults(data){
     latestPoints = data.points;
-
-    document.getElementById("mapUrl").innerText = data.url;
+    const write2link = function(id2write, what2write) {
+        const child = document.getElementById(id2write).querySelectorAll("a")[0];
+        child.href = what2write;
+        child.textContent = what2write;
+    };
+    write2link("mapUrlByName", data.url.name);
+    write2link("mapUrlByPoint", data.url.point);
 
     let table = document.getElementById("pointsTable");
     table.innerHTML = "";
@@ -159,10 +169,31 @@ async function uploadFile(formData) {
     
 }
 
-function copyURL() {
-    navigator.clipboard.writeText(
-        document.getElementById("mapUrl").innerText
-    );
+function copyURL(button) {
+    try {
+        const card = button.closest('.result-box');
+
+        navigator.clipboard.writeText(
+            card.querySelector("a").innerText
+        );
+
+        if (!button.dataset.originalText) {
+            button.dataset.originalText = button.textContent;
+        }
+
+        clearTimeout(button.copyTimeout);
+
+        button.textContent = 'Copied';
+        button.classList.add('copied');
+
+        button.copyTimeout = setTimeout(() => {
+            button.textContent = button.dataset.originalText;
+            button.classList.remove('copied');
+        }, 2000);
+
+    } catch (err) {
+        console.error('Copy failed:', err);
+    }
 }
 
 function copyCSV() {
