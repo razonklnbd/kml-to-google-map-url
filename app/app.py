@@ -10,9 +10,14 @@ from pathlib import Path
 
 from app.parser import KmlRouteParser
 
+from werkzeug.middleware.proxy_fix import ProxyFix
+
+
 app = Flask(__name__)
 app.secret_key = "CHAquest.remote_aNGE_THIS"
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # 10MB
+
+app.wsgi_app = ProxyFix(app.wsgi_app, x_prefix=1)
 
 # per-IP request timestamps
 request_log = defaultdict(deque)
