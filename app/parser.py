@@ -2,7 +2,8 @@ import csv
 import os
 import tempfile
 import zipfile
-import xml.etree.ElementTree as ET
+#import xml.etree.ElementTree as ET
+from defusedxml import ElementTree as ET
 from urllib.parse import quote_plus
 
 
@@ -202,7 +203,7 @@ class KmlRouteParser:
 
     @staticmethod
     def _safe_parse_kml(file_path):
-
+        '''
         parser = ET.XMLParser(
             resolve_entities=False
         )
@@ -210,6 +211,9 @@ class KmlRouteParser:
         tree = ET.parse(file_path, parser=parser)
 
         return tree.getroot()
+        '''
+        return ET.parse(file_path).getroot()
+
 
     def _parse_points(
         self,

@@ -2,3 +2,4 @@ flask
 flask-limiter
 gunicorn
 redis>=5.0
+defusedxml==0.7.1

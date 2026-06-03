@@ -92,6 +92,7 @@ def index():
 def debug():
     return {
         "X-Script-Name": request.headers.get("X-Script-Name"),
+        "X-Forwarded-Prefix": request.headers.get("X-Forwarded-Prefix"),
         "SCRIPT_NAME": request.environ.get("SCRIPT_NAME"),
         "PATH_INFO": request.environ.get("PATH_INFO"),
         "script_name": request.environ.get("SCRIPT_NAME"),
