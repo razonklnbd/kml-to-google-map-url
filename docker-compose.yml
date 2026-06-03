@@ -6,7 +6,7 @@ services:
     build: .
     container_name: kml_web
     ports:
-      - "5000:5000"
+      - "54565:5000" # host:container
     environment:
       RATELIMIT_STORAGE_URI: redis://redis:6379/0
     volumes:
